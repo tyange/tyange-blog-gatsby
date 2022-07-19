@@ -10,6 +10,7 @@ const StyledHeader = styled.header`
   display: flex;
   justify-content: center;
   padding: 1rem;
+  box-sizing: border-box;
 `;
 
 const HeaderWrapper = styled.div`

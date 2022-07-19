@@ -20,8 +20,10 @@ const BlogPost = ({ data }: Props) => {
 
   return (
     <Layout>
-      <p>{data.mdx.frontmatter.date}</p>
-      <MDXRenderer>{data.mdx.body}</MDXRenderer>
+      <div>
+        <p>{data.mdx.frontmatter.date}</p>
+        <MDXRenderer>{data.mdx.body}</MDXRenderer>
+      </div>
     </Layout>
   );
 };
