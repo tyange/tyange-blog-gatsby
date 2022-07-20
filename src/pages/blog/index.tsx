@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Reading } from "../../types/types";
 import { useBlogStore } from "../../store/blogStore";
 import Category from "../../components/category";
+import { useEffect } from "react";
 
 const BlogWrapper = styled.div`
   width: 100%;
@@ -32,9 +33,7 @@ const StyledUl = styled.ul`
 interface Props {
   data: {
     allMdx: {
-      edges: Array<{
-        node: Reading;
-      }>;
+      nodes: Reading[];
     };
   };
 }
@@ -49,18 +48,27 @@ const Blog = ({ data }: Props) => {
     setReadings,
   } = useBlogStore();
 
-  const showingReadings =
-    data.allMdx.edges.length > 0 ? data.allMdx.edges : null;
+  const readingsData = data.allMdx.nodes.length > 0 ? data.allMdx.nodes : [];
 
-  const categories = showingReadings
+  const categories = readingsData
     ? [
         ...new Set(
-          showingReadings
-            .map((reading) => reading.node.frontmatter.category)
-            .flat()
+          readingsData.map((reading) => reading.frontmatter.category).flat()
         ),
       ]
     : null;
+
+  useEffect(() => {
+    if (selectedCategory && readingsData) {
+      const showingReadings = readingsData.filter(
+        (data) => data.frontmatter.category === selectedCategory
+      );
+      setReadings(showingReadings);
+      return;
+    }
+
+    setReadings(readingsData);
+  }, [selectedCategory, readingsData]);
 
   return (
     <Layout>
@@ -72,13 +80,11 @@ const Blog = ({ data }: Props) => {
             ))}
           </CategoryWrapper>
         )}
-        {showingReadings ? (
+        {readings!.length > 0 ? (
           <StyledUl>
-            {showingReadings.map((post) => (
-              <li key={post.node.id}>
-                <Link to={`/blog/${post.node.slug}`}>
-                  {post.node.frontmatter.title}
-                </Link>
+            {readings.map((post) => (
+              <li key={post.id}>
+                <Link to={`/blog/${post.slug}`}>{post.frontmatter.title}</Link>
               </li>
             ))}
           </StyledUl>
@@ -95,17 +101,16 @@ const Blog = ({ data }: Props) => {
 export const query = graphql`
   query {
     allMdx(sort: { fields: frontmatter___date, order: DESC }) {
-      edges {
-        node {
-          id
-          frontmatter {
-            title
-            date
-            description
-            category
-          }
-          slug
+      nodes {
+        id
+        body
+        frontmatter {
+          category
+          description
+          title
+          date
         }
+        slug
       }
     }
   }
