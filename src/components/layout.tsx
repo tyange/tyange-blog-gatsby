@@ -11,6 +11,7 @@ const LayoutWrapper = styled.div`
 `;
 
 const StyledMain = styled.main`
+  min-height: 40rem;
   flex: 1;
   display: flex;
   flex-direction: column;

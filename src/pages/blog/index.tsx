@@ -12,11 +12,11 @@ import PageButtons from "../../components/page-buttons";
 
 const BlogWrapper = styled.div`
   width: 100%;
-  height: fit-content;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   margin-bottom: 2rem;
 `;
 
@@ -24,8 +24,7 @@ const CategoryWrapper = styled.div`
   display: flex;
   gap: 1rem;
   width: 50%;
-  margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 `;
 
 const PostList = styled.ul`

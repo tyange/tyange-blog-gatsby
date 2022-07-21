@@ -11,6 +11,7 @@ const StyledHeader = styled.header`
   justify-content: center;
   padding: 1rem;
   box-sizing: border-box;
+  margin-bottom: 3rem;
 `;
 
 const HeaderWrapper = styled.div`
@@ -34,7 +35,7 @@ const Header = () => {
       <HeaderWrapper>
         <div>
           <span>
-            <img src={tyangeLogo} />
+            <img src={tyangeLogo} alt="블로그 로고" />
           </span>
         </div>
         <Menu>

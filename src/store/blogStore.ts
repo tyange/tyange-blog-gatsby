@@ -11,7 +11,7 @@ interface StoreType {
 }
 
 export const useBlogStore = create<StoreType>((set) => ({
-  selectedCategory: "",
+  selectedCategory: null,
   setSelectedCategory: (category) => {
     set(() => ({ selectedCategory: category }));
   },

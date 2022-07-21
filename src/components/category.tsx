@@ -40,7 +40,10 @@ const Category = ({ categoryName }: Props) => {
   return (
     <CategoryButton
       onClick={() => categoryHandler(categoryName)}
-      categorySelected={selectedCategory === categoryName}
+      categorySelected={
+        selectedCategory === categoryName ||
+        (selectedCategory === null && categoryName === "all")
+      }
     >
       <span>{categoryName}</span>
     </CategoryButton>
