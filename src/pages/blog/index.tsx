@@ -31,6 +31,7 @@ const PostList = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
+
   a {
     color: black;
     text-decoration: none;
@@ -89,6 +90,7 @@ const Blog = ({ data }: Props) => {
       <BlogWrapper>
         {categories && (
           <CategoryWrapper>
+            <Category categoryName="all" />
             {categories.map((category) => (
               <Category categoryName={category} />
             ))}

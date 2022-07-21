@@ -3,7 +3,7 @@ import { Reading } from "../types/types";
 
 interface StoreType {
   selectedCategory: string | null;
-  setSelectedCategory: (category: string) => void;
+  setSelectedCategory: (category: string | null) => void;
   selectedPageNum: number;
   setSelectedPageNum: (pageNum: number) => void;
   readings: Reading[];

@@ -29,6 +29,11 @@ const Category = ({ categoryName }: Props) => {
   const { selectedCategory, setSelectedCategory } = useBlogStore();
 
   const categoryHandler = (ctName: string) => {
+    if (ctName === "all") {
+      setSelectedCategory(null);
+      return;
+    }
+
     setSelectedCategory(ctName);
   };
 
