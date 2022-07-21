@@ -1,16 +1,16 @@
 import * as React from "react";
 import Layout from "../../components/layout";
-import { Link, graphql } from "gatsby";
+import { graphql } from "gatsby";
 import styled from "styled-components";
 import { Reading } from "../../types/types";
 import { useBlogStore } from "../../store/blogStore";
 import Category from "../../components/category";
 import { useEffect } from "react";
+import Post from "../../components/post";
 
 const BlogWrapper = styled.div`
   width: 100%;
   height: 90%;
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,16 +18,30 @@ const BlogWrapper = styled.div`
 `;
 
 const CategoryWrapper = styled.div`
-  position: absolute;
-  top: 0;
   width: 50%;
+  margin-bottom: 2rem;
 `;
 
-const StyledUl = styled.ul`
+const PostList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   width: 50%;
+  height: 100%;
   list-style: none;
   margin: 0;
   padding: 0;
+  a {
+    color: black;
+    text-decoration: none;
+  }
+`;
+
+const PostItem = styled.li`
+  width: 100%;
+  height: 8rem;
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
 `;
 
 interface Props {
@@ -81,13 +95,18 @@ const Blog = ({ data }: Props) => {
           </CategoryWrapper>
         )}
         {readings!.length > 0 ? (
-          <StyledUl>
+          <PostList>
             {readings.map((post) => (
-              <li key={post.id}>
-                <Link to={`/blog/${post.slug}`}>{post.frontmatter.title}</Link>
-              </li>
+              <PostItem key={post.id}>
+                <Post
+                  slug={post.slug}
+                  title={post.frontmatter.title}
+                  description={post.frontmatter.description}
+                  date={post.frontmatter.date}
+                />
+              </PostItem>
             ))}
-          </StyledUl>
+          </PostList>
         ) : (
           <div>
             <p>아직 포스트가 없습니다.</p>
