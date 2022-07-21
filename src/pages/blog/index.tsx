@@ -1,11 +1,12 @@
 import * as React from "react";
-import Layout from "../../components/layout";
+import { useEffect } from "react";
 import { graphql } from "gatsby";
 import styled from "styled-components";
-import { Reading } from "../../types/types";
 import { useBlogStore } from "../../store/blogStore";
+import { Reading } from "../../types/types";
+
+import Layout from "../../components/layout";
 import Category from "../../components/category";
-import { useEffect } from "react";
 import Post from "../../components/post";
 
 const BlogWrapper = styled.div`
@@ -18,8 +19,11 @@ const BlogWrapper = styled.div`
 `;
 
 const CategoryWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
   width: 50%;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
 `;
 
 const PostList = styled.ul`
