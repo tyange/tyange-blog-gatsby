@@ -8,14 +8,16 @@ import { Reading } from "../../types/types";
 import Layout from "../../components/layout";
 import Category from "../../components/category";
 import Post from "../../components/post";
+import PageButtons from "../../components/page-buttons";
 
 const BlogWrapper = styled.div`
   width: 100%;
-  height: 90%;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
 `;
 
 const CategoryWrapper = styled.div`
@@ -60,15 +62,14 @@ interface Props {
 const Blog = ({ data }: Props) => {
   const {
     selectedCategory,
-    setSelectedCategory,
     selectedPageNum,
-    setSelectedPageNum,
-    readings,
-    setReadings,
+    chunkedReadings,
+    setChunkedReadings,
   } = useBlogStore();
 
   const readingsData = data.allMdx.nodes.length > 0 ? data.allMdx.nodes : [];
 
+  const chunkSize = 4;
   const categories = readingsData
     ? [
         ...new Set(
@@ -77,16 +78,27 @@ const Blog = ({ data }: Props) => {
       ]
     : null;
 
+  const chunkingData = (data: Reading[]) => {
+    const chunkedData = [];
+    for (let i = 0; i < data.length; i += chunkSize) {
+      const chunk = data.slice(i, i + chunkSize);
+      chunkedData.push(chunk);
+    }
+
+    return chunkedData;
+  };
+
   useEffect(() => {
     if (selectedCategory && readingsData) {
       const showingReadings = readingsData.filter(
         (data) => data.frontmatter.category === selectedCategory
       );
-      setReadings(showingReadings);
+
+      setChunkedReadings(chunkingData(showingReadings));
       return;
     }
 
-    setReadings(readingsData);
+    setChunkedReadings(chunkingData(readingsData));
   }, [selectedCategory, readingsData]);
 
   return (
@@ -94,15 +106,15 @@ const Blog = ({ data }: Props) => {
       <BlogWrapper>
         {categories && (
           <CategoryWrapper>
-            <Category categoryName="all" />
+            <Category key="all" categoryName="all" />
             {categories.map((category) => (
-              <Category categoryName={category} />
+              <Category key={category} categoryName={category} />
             ))}
           </CategoryWrapper>
         )}
-        {readings!.length > 0 ? (
+        {chunkedReadings!.length > 0 ? (
           <PostList>
-            {readings.map((post) => (
+            {chunkedReadings[selectedPageNum].map((post) => (
               <PostItem key={post.id}>
                 <Post
                   slug={post.slug}
@@ -119,6 +131,7 @@ const Blog = ({ data }: Props) => {
           </div>
         )}
       </BlogWrapper>
+      <PageButtons pageNums={chunkedReadings.length} />
     </Layout>
   );
 };

@@ -6,8 +6,8 @@ interface StoreType {
   setSelectedCategory: (category: string | null) => void;
   selectedPageNum: number;
   setSelectedPageNum: (pageNum: number) => void;
-  readings: Reading[];
-  setReadings: (readings: Reading[]) => void;
+  chunkedReadings: Reading[][];
+  setChunkedReadings: (readings: Reading[][]) => void;
 }
 
 export const useBlogStore = create<StoreType>((set) => ({
@@ -15,12 +15,12 @@ export const useBlogStore = create<StoreType>((set) => ({
   setSelectedCategory: (category) => {
     set(() => ({ selectedCategory: category }));
   },
-  selectedPageNum: 1,
+  selectedPageNum: 0,
   setSelectedPageNum: (pageNum) => {
     set(() => ({ selectedPageNum: pageNum }));
   },
-  readings: [],
-  setReadings: (readings) => {
-    set(() => ({ readings: readings }));
+  chunkedReadings: [],
+  setChunkedReadings: (readings) => {
+    set(() => ({ chunkedReadings: readings }));
   },
 }));
