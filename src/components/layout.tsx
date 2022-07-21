@@ -4,6 +4,10 @@ import Header from "./header";
 import styled from "styled-components";
 import GlobalStyle from "./global-style";
 
+import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
+
+deckDeckGoHighlightElement();
+
 const LayoutWrapper = styled.div`
   display: flex;
   align-items: center;

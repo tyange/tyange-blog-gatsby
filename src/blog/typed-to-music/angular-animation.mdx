@@ -10,7 +10,7 @@ React는 기본적으로 제공되는 animation-api가 없기 때문에, 서드 
 
 Angular는 [공식 문서](https://angular.io/guide/animations)에서도 볼 수 있듯이 자체적으로 animation 기능을 구현할 수 있도록 해두었습니다. 이 기능은 Angular 클라이언트(angular client 혹은 ng-cli)로 프로젝트를 구성할 경우 프로젝트 안에 자동으로 포함됩니다. 프로젝트의 루트 모듈에 `BrowserAnimationsModule` 을 추가해주고, 애니메이션을 적용하고 싶은 컴포넌트의 어노테이션에 아래의 코드처럼 `animations` 옵션을 써줍니다.
 
-```
+```ts
     @Component({
       selector: 'app-alert-bar',
       templateUrl: './alert-bar.component.html',
@@ -41,7 +41,7 @@ Angular는 [공식 문서](https://angular.io/guide/animations)에서도 볼 수
     })
 ```
 `trigger` , `state` , `style` , `transition` , `animate` 과 같은 세부 옵션들은 모두 `@angular/animations` 에서 불러오죠. `trigger` 의 이름을 `showHide` 로 정의하고 `*` 상태를 이용하여 기본적인 상태의 애니메이션을 설정해줍니다. `*` 는 Angular가 제공하는 애니메이션의 wild-card-state로 '모든 상태'를 의미하는데요, 저도 이 부분이 이해하기가 어려웠습니다. 좀 더 쉬운 설명을 위해 위의 코드에서 선언된 `transition` 함수 부분을 자세히 살펴보겠습니다.
-```
+```ts
     transition('* => *', [animate('0.2s')]) 
 ```
 
@@ -51,7 +51,7 @@ Angular는 [공식 문서](https://angular.io/guide/animations)에서도 볼 수
 
 여기서 한 가지, 컴포넌트의 템플릿(template)에 **이미 선언된 스타일링(CSS-styling)이 있을 경우** 주의해야 합니다. 저는 `:host` 셀렉터에 기본적인 스타일링을 지정하고 있었는데, 애니메이션(animation) 옵션에서 지정한 스타일링과 적절한 병합이 이루어지지 않아서 여러가지 스타일링이 한꺼번에 나타나곤 했습니다.
 
-```
+```html
     <div [@showHide]="isAlert ? 'show' : 'hide'" class="alert-bar">
       ...
     </div>
@@ -60,13 +60,10 @@ Angular는 [공식 문서](https://angular.io/guide/animations)에서도 볼 수
 위의 코드에서 보듯이 템플릿에 트리거(trigger) 이름을 넣어 애니메이션과 연결하게 되므로, **해당 트리거 이름이 들어간 엘레먼트(element)에만 영향**이 있습니다. 컴포넌트의 루트를 가리키는 `:host` 셀렉터는 `.alert-bar` 엘레먼트를 감싸고 있는—주로 'app'이라는 접두어가 붙는—엘레먼트를 가리키므로, `:host` 셀렉터로 선언한 스타일링은 애니메이션 옵션에서 지정한 스타일링과 정상적인 병합이 일어나지 않습니다. **트리거 이름을 넣은 엘레먼트에 직접적으로 스타일링을 선언**해주어야 합니다!
 
 제가 구현한 alert-bar 같은 경우 어떤 에러(alert)이 발생하지 않았을 때는, 흔적도 남기지 않기를 원합니다(?). 그래서 저는 alert-bar 컴포넌트를 아래와 같이 루트 템플릿(app.component.html)에 추가했습니다.
-
-```
-    <app-alert-bar
-      *ngIf="isAlert"
-      [alertMessage]="alertMessage"
-      (clearAlertEvent)="clearAlert()"
-    >
+html
+<
+```html
+    <app-alert-bar *ngIf="isAlert" [alertMessage]="alertMessage" (clearAlertEvent)="clearAlert()">
     </app-alert-bar>
     <main>
       <router-outlet></router-outlet>
