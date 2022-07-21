@@ -23,7 +23,7 @@ const BlogWrapper = styled.div`
 const CategoryWrapper = styled.div`
   display: flex;
   gap: 1rem;
-  width: 50%;
+  width: 100%;
   margin-bottom: 2rem;
 `;
 
@@ -31,7 +31,7 @@ const PostList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  width: 50%;
+  width: 100%;
   height: 100%;
   list-style: none;
   margin: 0;

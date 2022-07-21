@@ -6,17 +6,18 @@ import GlobalStyle from "./global-style";
 
 const LayoutWrapper = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: column;
   height: 100vh;
 `;
 
 const StyledMain = styled.main`
-  min-height: 40rem;
+  width: 50%;
+  min-height: 50rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 interface Props {
