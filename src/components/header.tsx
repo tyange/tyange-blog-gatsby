@@ -1,7 +1,8 @@
 import * as React from "react";
+import { Link } from "gatsby";
 import styled from "styled-components";
-import { Email } from "@styled-icons/entypo/Email";
-import { QuestionMark } from "@styled-icons/open-iconic/QuestionMark";
+import { Github } from "@styled-icons/bootstrap/Github";
+import { QuestionCircle } from "@styled-icons/fa-regular/QuestionCircle";
 
 import tyangeLogo from "../images/tyange-logo.svg";
 
@@ -33,9 +34,11 @@ const Menu = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 5rem;
-`;
 
-const Logo = styled.div``;
+  > a {
+    color: black;
+  }
+`;
 
 const Header = () => {
   return (
@@ -47,12 +50,12 @@ const Header = () => {
           </span>
         </div>
         <Menu>
-          <span>
-            <Email size="20" />
-          </span>
-          <span>
-            <QuestionMark size="18" />
-          </span>
+          <a href="https://github.com/tyange">
+            <Github size="23" />
+          </a>
+          <Link to={"/about"}>
+            <QuestionCircle size="23" />
+          </Link>
         </Menu>
       </HeaderWrapper>
     </StyledHeader>
