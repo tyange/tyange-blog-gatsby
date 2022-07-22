@@ -13,6 +13,7 @@ const PostWrapper = styled.div`
   width: 100%;
   line-height: 1.7rem;
   word-break: keep-all;
+  margin-top: 2rem;
 
   a {
     color: black;
@@ -44,8 +45,8 @@ const PostWrapper = styled.div`
 
 const BackButton = styled.button`
   position: absolute;
-  right: 0;
-  top: 0.3rem;
+  left: 0;
+  top: -3rem;
   display: flex;
   align-items: center;
   border: none;
