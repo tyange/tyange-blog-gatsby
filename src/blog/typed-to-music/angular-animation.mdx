@@ -60,8 +60,6 @@ Angular는 [공식 문서](https://angular.io/guide/animations)에서도 볼 수
 위의 코드에서 보듯이 템플릿에 트리거(trigger) 이름을 넣어 애니메이션과 연결하게 되므로, **해당 트리거 이름이 들어간 엘레먼트(element)에만 영향**이 있습니다. 컴포넌트의 루트를 가리키는 `:host` 셀렉터는 `.alert-bar` 엘레먼트를 감싸고 있는—주로 'app'이라는 접두어가 붙는—엘레먼트를 가리키므로, `:host` 셀렉터로 선언한 스타일링은 애니메이션 옵션에서 지정한 스타일링과 정상적인 병합이 일어나지 않습니다. **트리거 이름을 넣은 엘레먼트에 직접적으로 스타일링을 선언**해주어야 합니다!
 
 제가 구현한 alert-bar 같은 경우 어떤 에러(alert)이 발생하지 않았을 때는, 흔적도 남기지 않기를 원합니다(?). 그래서 저는 alert-bar 컴포넌트를 아래와 같이 루트 템플릿(app.component.html)에 추가했습니다.
-html
-<
 ```html
     <app-alert-bar *ngIf="isAlert" [alertMessage]="alertMessage" (clearAlertEvent)="clearAlert()">
     </app-alert-bar>

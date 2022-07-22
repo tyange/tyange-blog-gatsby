@@ -10,6 +10,7 @@ const PostWrapper = styled.div`
   gap: 1rem;
   width: 100%;
   line-height: 1.7rem;
+  word-break: keep-all;
 
   a {
     color: black;
@@ -38,9 +39,14 @@ const PostWrapper = styled.div`
   }
 `;
 
+const PostTitleAndDate = styled.div`
+  margin-bottom: 3rem;
+`;
+
 const PostTitle = styled.h1`
   line-height: 2.3rem;
   word-break: keep-all;
+  margin-bottom: 1rem;
 `;
 
 const PostDate = styled.div`
@@ -48,6 +54,7 @@ const PostDate = styled.div`
   justify-content: end;
   gap: 0.3rem;
   width: 100%;
+  font-size: 0.9rem;
 `;
 
 interface Props {
@@ -66,14 +73,14 @@ const BlogPost = ({ data }: Props) => {
   return (
     <Layout>
       <PostWrapper>
-        <div>
+        <PostTitleAndDate>
           <PostTitle>{data.mdx.frontmatter.title}</PostTitle>
           <PostDate>
             <span>{new Date(data.mdx.frontmatter.date).getFullYear()}년</span>
             <span>{new Date(data.mdx.frontmatter.date).getMonth() + 1}월</span>
             <span>{new Date(data.mdx.frontmatter.date).getDate()}일</span>
           </PostDate>
-        </div>
+        </PostTitleAndDate>
         <MDXRenderer>{data.mdx.body}</MDXRenderer>
       </PostWrapper>
     </Layout>
