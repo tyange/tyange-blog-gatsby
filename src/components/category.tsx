@@ -29,6 +29,19 @@ const Category = ({ categoryName }: Props) => {
   const { selectedCategory, setSelectedCategory, setSelectedPageNum } =
     useBlogStore();
 
+  const categoryNameConverted = (ctName: string) => {
+    switch (ctName) {
+      case "all":
+        return "모든 글";
+      case "typed-to-music":
+        return "타이핑 소리에 박자 넣기";
+      case "long-long":
+        return "구구절절";
+      default:
+        return ctName;
+    }
+  };
+
   const categoryHandler = (ctName: string) => {
     if (ctName === "all") {
       setSelectedPageNum(0);
@@ -48,7 +61,7 @@ const Category = ({ categoryName }: Props) => {
         (selectedCategory === null && categoryName === "all")
       }
     >
-      <span>{categoryName}</span>
+      <span>{categoryNameConverted(categoryName)}</span>
     </CategoryButton>
   );
 };
