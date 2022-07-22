@@ -5,6 +5,7 @@ import styled from "styled-components";
 import GlobalStyle from "./global-style";
 
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
+import Footer from "./footer";
 
 deckDeckGoHighlightElement();
 
@@ -17,7 +18,6 @@ const LayoutWrapper = styled.div`
 
 const StyledMain = styled.main`
   width: 60%;
-  min-height: 50rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -43,6 +43,7 @@ const Layout = ({ children }: Props) => {
       <LayoutWrapper>
         <Header />
         <StyledMain>{children}</StyledMain>
+        <Footer />
       </LayoutWrapper>
     </>
   );

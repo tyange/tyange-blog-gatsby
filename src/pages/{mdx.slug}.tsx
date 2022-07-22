@@ -1,5 +1,5 @@
 import * as React from "react";
-import Layout from "../../components/layout";
+import Layout from "../components/layout";
 import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import styled from "styled-components";
@@ -36,6 +36,7 @@ const PostWrapper = styled.div`
     margin: 1rem 0 1rem 0;
     box-shadow: none;
     line-height: 1.2rem;
+    word-break: break-all;
   }
 `;
 
