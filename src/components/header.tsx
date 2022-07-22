@@ -45,9 +45,9 @@ const Header = () => {
     <StyledHeader>
       <HeaderWrapper>
         <div>
-          <span>
+          <Link to={"/"}>
             <img src={tyangeLogo} alt="블로그 로고" />
-          </span>
+          </Link>
         </div>
         <Menu>
           <a href="https://github.com/tyange">
