@@ -1,10 +1,12 @@
 import * as React from "react";
 import Layout from "../components/layout";
-import { graphql } from "gatsby";
+import { graphql, navigate } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import styled from "styled-components";
+import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 
 const PostWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -40,6 +42,18 @@ const PostWrapper = styled.div`
   }
 `;
 
+const BackButton = styled.button`
+  position: absolute;
+  right: 0;
+  top: 0.3rem;
+  display: flex;
+  align-items: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  gap: 0.5rem;
+`;
+
 const PostTitleAndDate = styled.div`
   margin-bottom: 3rem;
 `;
@@ -71,9 +85,17 @@ interface Props {
 }
 
 const BlogPost = ({ data }: Props) => {
+  const backHandler = () => {
+    navigate("/");
+  };
+
   return (
     <Layout>
       <PostWrapper>
+        <BackButton onClick={backHandler}>
+          <ArrowBack size="15" />
+          <span>목록으로</span>
+        </BackButton>
         <PostTitleAndDate>
           <PostTitle>{data.mdx.frontmatter.title}</PostTitle>
           <PostDate>
