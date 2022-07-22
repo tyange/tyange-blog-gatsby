@@ -26,14 +26,17 @@ interface Props {
 }
 
 const Category = ({ categoryName }: Props) => {
-  const { selectedCategory, setSelectedCategory } = useBlogStore();
+  const { selectedCategory, setSelectedCategory, setSelectedPageNum } =
+    useBlogStore();
 
   const categoryHandler = (ctName: string) => {
     if (ctName === "all") {
+      setSelectedPageNum(0);
       setSelectedCategory(null);
       return;
     }
 
+    setSelectedPageNum(0);
     setSelectedCategory(ctName);
   };
 
