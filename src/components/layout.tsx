@@ -16,12 +16,20 @@ const LayoutWrapper = styled.div`
 `;
 
 const StyledMain = styled.main`
-  width: 50%;
+  width: 60%;
   min-height: 50rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 992px) {
+    width: 70%;
+  }
+
+  @media (max-width: 576px) {
+    width: 90%;
+  }
 `;
 
 interface Props {

@@ -15,9 +15,17 @@ const StyledHeader = styled.header`
 `;
 
 const HeaderWrapper = styled.div`
-  width: 50%;
+  width: 60%;
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 1100px) {
+    width: 70%;
+  }
+
+  @media (max-width: 576px) {
+    width: 95%;
+  }
 `;
 
 const Menu = styled.div`
