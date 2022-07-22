@@ -46,6 +46,7 @@ const PageButtons = ({ pageNums }: Props) => {
     <ButtonsWrapper>
       {pageNumsArray.map((pageNum) => (
         <StyledButton
+          key={pageNum}
           onClick={() => pageSelectHandler(pageNum - 1)}
           pageSelected={pageNum - 1 === selectedPageNum}
         >
