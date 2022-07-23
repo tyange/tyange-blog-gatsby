@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { graphql } from "gatsby";
 import styled from "styled-components";
 import { useBlogStore } from "../store/blogStore";
@@ -60,9 +60,9 @@ interface Props {
 }
 
 const Blog = ({ data }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
-
   const {
+    isLoading,
+    setIsLoading,
     selectedCategory,
     chunkedReadings,
     selectedPageNum,
