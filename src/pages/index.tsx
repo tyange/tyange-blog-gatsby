@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { graphql } from "gatsby";
 import styled from "styled-components";
 import { useBlogStore } from "../store/blogStore";
@@ -9,6 +9,7 @@ import Layout from "../components/layout";
 import Category from "../components/category";
 import Post from "../components/post";
 import PageButtons from "../components/page-buttons";
+import Loading from "../components/loading";
 
 const BlogWrapper = styled.div`
   width: 100%;
@@ -59,10 +60,12 @@ interface Props {
 }
 
 const Blog = ({ data }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     selectedCategory,
-    selectedPageNum,
     chunkedReadings,
+    selectedPageNum,
     setChunkedReadings,
   } = useBlogStore();
 
@@ -88,16 +91,20 @@ const Blog = ({ data }: Props) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
+
     if (selectedCategory && readingsData) {
       const showingReadings = readingsData.filter(
         (data) => data.frontmatter.category === selectedCategory
       );
 
       setChunkedReadings(chunkingData(showingReadings));
+      setIsLoading(false);
       return;
     }
 
     setChunkedReadings(chunkingData(readingsData));
+    setIsLoading(false);
   }, [selectedCategory, readingsData]);
 
   return (
@@ -111,7 +118,8 @@ const Blog = ({ data }: Props) => {
             ))}
           </CategoryWrapper>
         )}
-        {chunkedReadings!.length > 0 ? (
+        {isLoading && <Loading />}
+        {!isLoading && chunkedReadings!.length > 0 && (
           <PostList>
             {chunkedReadings[selectedPageNum].map((post) => (
               <PostItem key={post.id}>
@@ -124,7 +132,8 @@ const Blog = ({ data }: Props) => {
               </PostItem>
             ))}
           </PostList>
-        ) : (
+        )}
+        {!isLoading && chunkedReadings!.length === 0 && (
           <div>
             <p>아직 포스트가 없습니다.</p>
           </div>
