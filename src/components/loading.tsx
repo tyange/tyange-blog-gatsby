@@ -26,8 +26,6 @@ const LoadingSpinner = styled(Spinner11)`
 `;
 
 const Loading = () => {
-  console.log("loading");
-
   return (
     <SpinnerContainer>
       <LoadingSpinner size="30" />

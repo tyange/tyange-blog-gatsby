@@ -118,25 +118,30 @@ const Blog = ({ data }: Props) => {
             ))}
           </CategoryWrapper>
         )}
-        {isLoading && <Loading />}
-        {!isLoading && chunkedReadings!.length > 0 && (
-          <PostList>
-            {chunkedReadings[selectedPageNum].map((post) => (
-              <PostItem key={post.id}>
-                <Post
-                  slug={post.slug}
-                  title={post.frontmatter.title}
-                  description={post.frontmatter.description}
-                  date={post.frontmatter.date}
-                />
-              </PostItem>
-            ))}
-          </PostList>
-        )}
-        {!isLoading && chunkedReadings!.length === 0 && (
-          <div>
-            <p>아직 포스트가 없습니다.</p>
-          </div>
+        {isLoading === null || isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {chunkedReadings!.length > 0 && (
+              <PostList>
+                {chunkedReadings[selectedPageNum].map((post) => (
+                  <PostItem key={post.id}>
+                    <Post
+                      slug={post.slug}
+                      title={post.frontmatter.title}
+                      description={post.frontmatter.description}
+                      date={post.frontmatter.date}
+                    />
+                  </PostItem>
+                ))}
+              </PostList>
+            )}
+            {chunkedReadings!.length === 0 && (
+              <div>
+                <p>아직 포스트가 없습니다.</p>
+              </div>
+            )}
+          </>
         )}
       </BlogWrapper>
       <PageButtons pageNums={chunkedReadings.length} />

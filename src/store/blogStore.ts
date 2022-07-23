@@ -2,7 +2,7 @@ import create from "zustand";
 import { Reading } from "../types/types";
 
 interface StoreType {
-  isLoading: boolean;
+  isLoading: boolean | null;
   setIsLoading: (loadingState: boolean) => void;
   selectedCategory: string | null;
   setSelectedCategory: (category: string | null) => void;
@@ -13,7 +13,7 @@ interface StoreType {
 }
 
 export const useBlogStore = create<StoreType>((set) => ({
-  isLoading: false,
+  isLoading: null,
   setIsLoading: (loadingState) => {
     set(() => ({ isLoading: loadingState }));
   },
