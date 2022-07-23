@@ -109,19 +109,19 @@ const Blog = ({ data }: Props) => {
 
   return (
     <Layout>
-      <BlogWrapper>
-        {categories && (
-          <CategoryWrapper>
-            <Category key="all" categoryName="all" />
-            {categories.map((category) => (
-              <Category key={category} categoryName={category} />
-            ))}
-          </CategoryWrapper>
-        )}
-        {isLoading === null || isLoading ? (
-          <Loading />
-        ) : (
-          <>
+      {isLoading === null || isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <BlogWrapper>
+            {categories && (
+              <CategoryWrapper>
+                <Category key="all" categoryName="all" />
+                {categories.map((category) => (
+                  <Category key={category} categoryName={category} />
+                ))}
+              </CategoryWrapper>
+            )}
             {chunkedReadings!.length > 0 && (
               <PostList>
                 {chunkedReadings[selectedPageNum].map((post) => (
@@ -141,10 +141,10 @@ const Blog = ({ data }: Props) => {
                 <p>아직 포스트가 없습니다.</p>
               </div>
             )}
-          </>
-        )}
-      </BlogWrapper>
-      <PageButtons pageNums={chunkedReadings.length} />
+          </BlogWrapper>
+          <PageButtons pageNums={chunkedReadings.length} />
+        </>
+      )}
     </Layout>
   );
 };
