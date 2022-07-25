@@ -4,6 +4,7 @@ import { graphql, navigate } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import styled from "styled-components";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
+import { SEO } from "../components/seo";
 
 const PostWrapper = styled.div`
   position: relative;
@@ -92,6 +93,7 @@ const BlogPost = ({ data }: Props) => {
 
   return (
     <Layout>
+      <SEO title={data.mdx.frontmatter.title} />
       <PostWrapper>
         <BackButton onClick={backHandler}>
           <ArrowBack size="15" />

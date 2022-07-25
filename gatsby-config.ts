@@ -3,7 +3,8 @@ import type { GatsbyConfig } from "gatsby";
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `tyange-dev-blog`,
-    siteUrl: `https://www.yourdomain.tld`,
+    description: "tyange의 개발 블로그",
+    siteUrl: `https://tyange.gatsbyjs.io/`,
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin

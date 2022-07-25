@@ -1,6 +1,7 @@
 import * as React from "react";
 import Layout from "../components/layout";
 import styled from "styled-components";
+import { SEO } from "../components/seo";
 
 const AboutContainer = styled.div`
   width: 100%;
@@ -31,6 +32,7 @@ const AboutContainer = styled.div`
 const About = () => {
   return (
     <Layout>
+      <SEO title="about" />
       <AboutContainer>
         <div>
           <div>

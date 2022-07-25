@@ -10,6 +10,7 @@ import Category from "../components/category";
 import Post from "../components/post";
 import PageButtons from "../components/page-buttons";
 import Loading from "../components/loading";
+import { SEO } from "../components/seo";
 
 const BlogWrapper = styled.div`
   width: 100%;
@@ -109,6 +110,7 @@ const Blog = ({ data }: Props) => {
 
   return (
     <Layout>
+      <SEO title="home" />
       {isLoading === null || isLoading ? (
         <Loading />
       ) : (
