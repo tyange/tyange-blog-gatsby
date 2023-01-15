@@ -60,6 +60,14 @@ export const SEO = ({ title, slug, description }: Props) => {
         content={description ? description : site.siteMetadata.description}
       />
       <link rel="icon" href={tyangeLogo} />
+      <link
+        rel="canonical"
+        href={
+          slug
+            ? `${site.siteMetadata.siteUrl}/${slug}`
+            : site.siteMetadata.siteUrl
+        }
+      />
     </Helmet>
   );
 };
