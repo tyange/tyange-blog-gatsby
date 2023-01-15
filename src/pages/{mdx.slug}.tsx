@@ -82,6 +82,7 @@ interface Props {
         date: string;
       };
       body: string;
+      slug: string;
     };
   };
 }
@@ -93,7 +94,7 @@ const BlogPost = ({ data }: Props) => {
 
   return (
     <Layout>
-      <SEO title={data.mdx.frontmatter.title} />
+      <SEO title={data.mdx.frontmatter.title} slug={data.mdx.slug} />
       <PostWrapper>
         <BackButton onClick={backHandler}>
           <ArrowBack size="15" />
@@ -121,6 +122,7 @@ export const query = graphql`
         date(formatString: "MMMM D, YYYY")
       }
       body
+      slug
     }
   }
 `;
