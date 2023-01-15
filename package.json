@@ -1,8 +1,8 @@
 {
-  "name": "tyange-dev-blog",
+  "name": "tyange-blog",
   "version": "1.0.0",
   "private": true,
-  "description": "tyange-dev-blog",
+  "description": "tyange-blog",
   "author": "tyange",
   "keywords": [
     "gatsby"
