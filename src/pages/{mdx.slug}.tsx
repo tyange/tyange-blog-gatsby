@@ -128,6 +128,7 @@ export const query = graphql`
         description
       }
       body
+      slug
     }
   }
 `;

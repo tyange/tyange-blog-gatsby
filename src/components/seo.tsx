@@ -6,11 +6,13 @@ import tyangeLogo from "../images/tyange-logo.svg";
 
 interface Props {
   title: string | null;
-  slug?: string;
+  slug: string;
   description?: string;
 }
 
 export const SEO = ({ title, slug, description }: Props) => {
+  console.log(slug);
+
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -60,14 +62,7 @@ export const SEO = ({ title, slug, description }: Props) => {
         content={description ? description : site.siteMetadata.description}
       />
       <link rel="icon" href={tyangeLogo} />
-      <link
-        rel="canonical"
-        href={
-          slug
-            ? `${site.siteMetadata.siteUrl}/${slug}`
-            : site.siteMetadata.siteUrl
-        }
-      />
+      <link rel="canonical" href={`${site.siteMetadata.siteUrl}/${slug}`} />
     </Helmet>
   );
 };
