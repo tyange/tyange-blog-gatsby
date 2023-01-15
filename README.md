@@ -1,4 +1,4 @@
-# tyange-dev-blog
+# tyange-blog
 
 개발 블로그 따로 만들기.
 
