@@ -37,6 +37,8 @@ const Category = ({ categoryName }: Props) => {
         return "타이핑 소리에 박자 넣기";
       case "long-long":
         return "구구절절";
+      case "not-hard-writing":
+        return "힘들여 쓰지 않기";
       default:
         return ctName;
     }
