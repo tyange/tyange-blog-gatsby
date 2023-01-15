@@ -80,6 +80,7 @@ interface Props {
       frontmatter: {
         title: string;
         date: string;
+        description: string;
       };
       body: string;
       slug: string;
@@ -94,7 +95,11 @@ const BlogPost = ({ data }: Props) => {
 
   return (
     <Layout>
-      <SEO title={data.mdx.frontmatter.title} slug={data.mdx.slug} />
+      <SEO
+        title={data.mdx.frontmatter.title}
+        slug={data.mdx.slug}
+        description={data.mdx.frontmatter.description}
+      />
       <PostWrapper>
         <BackButton onClick={backHandler}>
           <ArrowBack size="15" />
@@ -120,9 +125,9 @@ export const query = graphql`
       frontmatter {
         title
         date(formatString: "MMMM D, YYYY")
+        description
       }
       body
-      slug
     }
   }
 `;
