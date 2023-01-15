@@ -56,13 +56,20 @@ export const SEO = ({ title, slug, description }: Props) => {
         name="twitter:title"
         content={title ? title : site.siteMetadata.title}
       />
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content="summary" />
       <meta
         name="twitter:description"
         content={description ? description : site.siteMetadata.description}
       />
       <link rel="icon" href={tyangeLogo} />
-      <link rel="canonical" href={`${site.siteMetadata.siteUrl}/${slug}`} />
+      <link
+        rel="canonical"
+        href={
+          slug
+            ? `${site.siteMetadata.siteUrl}/${slug}`
+            : site.siteMetadata.siteUrl
+        }
+      />
     </Helmet>
   );
 };
