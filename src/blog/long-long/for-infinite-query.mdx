@@ -1,0 +1,60 @@
+---
+title: "어떻게 성공했는지 알 수 없는 useInfiniteQuery 사용기"
+date: "2023-01-26"
+category: "long-long"
+description: "이게 왜 되지?"
+---
+
+회사에서 쓰는 코드 중에 'More' 버튼을 누르면 더 많은 데이터, 다시 말해 다음 '페이지' 데이터를 받아서 리스트로 보여주는 페이지가 있었다. 해당 페이지를 구성하는 모든 코드는 내 전임자가 쓰고 간 코드였는데, 신기하게도 [`React-Toolkit-Query`](https://redux-toolkit.js.org/rtk-query/overview)라는 Redux-Toolkit과 연동하기 좋다는(?) 비동기 통신을 위한 라이브러리를 사용하고 있었다.
+
+이것이 큰 문제는 아니어서, 계속 페이지를 그대로 두고 사용하던 중이었지만 내심 계속 걸리는 것이, 구동이 잘 된다는 전제하에 내가 `Redux-Toolkit-Query`를 거의 이해하지 못한 채로 사용하고 있다는 것이었다. 많이들 사용하는 라이브러리였다면 인터넷 여기저기에 참고할 사항이 많아서 도움이 되기도 했겠지만, 왜인지 `Redux-Toolkit-Query`를 실제 제품에서 사용하는 경우는 거의 없었고(물론, 내가 찾지 못한 것일수도!) `Redux-Toolkit` 사용자나, `Redux-Toolkit` 개발팀에서 적극적으로 밀어주는 라이브러리 같았다. 그도 그럴 것이 실제로 `Redux-Toolkit-Query`를 사용해보면, `Redux-Toolkit`과 연동성이 꽤 좋다고 느낄 부분이 많았다. 예를 들면 `Redux-Toolkit`의 전역 스토어를 지정하고 정의하는 보일러 플레이트 코드 내에서 `Redux-Toolkit-Query`를 이용한 API 관련 코드들을 Middleware로 집어 넣어 설정을 마칠 수 있는 거라든지, `Redux-Devtools`에서 그 흐름을 확인할 수 있다든지 하는 것들. 그 외, 공식 문서 상에는 번들 사이즈가 작다는 점을 강조하는데, 이건 `Redux-Toolkit` 위에서 `Redux-Toolkit-Query`가 구동되기 때문인듯 하다.
+
+결론적으로 말하면 `Redux-Toolkit`을 전역 상태 관리 도구로 이미 사용하고 있다면, 비동기 통신을 관리하기 위한 도구로 `Redux-Toolkit-Query`를 사용할 만하다는 것이다. 그러나 공식 문서가 빈약해서 '내가 원하는 정확한 API 호출 동작'을 구현하기가 어렵다는 점이 가장 큰 문제로 남는다. 사용자가 많아 예제라도 검색했을 때 많이 나온다면 예제를 이리저리 분석해가며 코드를 작성할 수 있지만, 인터넷에 참고될 만한 코드가 거의 없는 실정이다. 그래서 나는 `Redux-Toolkit-Query`를 사용하는 모든 코드를 `React-Query`로 변경하기로 했다.
+
+일단 `React-Query`는 사용하는 사람이 많고, 업데이트도 꾸준(현재 공식적인 명칭은 [`Tanstack Query`](https://tanstack.com/query/latest) 이다)하다. 그리고 라이브러리 내의 각 API에 대해서도 문서가 충분하고 공식 문서에 쓰인 예제도 있어서 동작 원리를 이해하기가 `Redux-Toolkit-Query`보다 훨씬 쉽다. 아래는 내가 구현하고자 하는 연속적으로 더 많은 데이터를 호출할 수 있는 `useInfiniteQuery`에 관한 예시로 공식 문서의 일부로 작성돼 있는 코드다.
+
+```
+fetch('/api/projects?cursor=0')
+// { data: [...], nextCursor: 3}
+fetch('/api/projects?cursor=3')
+// { data: [...], nextCursor: 6}
+fetch('/api/projects?cursor=6')
+// { data: [...], nextCursor: 9}
+fetch('/api/projects?cursor=9')
+// { data: [...] }
+```
+
+위 코드를 좀 더 인간적으로 해석해보자. 우리는 어떤 URL이든 해당 URL을 통해 API에 요청을 보낼 것이다. 만약 우리가 `cursor` 값이 `0`인 API 요청을 보낸다면, `useInfiniteQuery`는 `nextCursor`의 값으로 `3`을 내려준다는 이야기이다.
+
+여기서 `3`은 정해진 값이나 크기가 아니다. 예제일 뿐이다. 우리는 `useInfiniteQuery` 안에서 이 값의 증가량을 정할 수 있다. 뿐만 아니라 꼭 `cursor`라는 키 값이 아니어도 상관이 없다. 다만 다음 페이지에 관한 `key`의 값이면 된다.
+
+```typescript
+const { data, isLoading, isFetching, error, fetchNextPage, refetch } =
+  useInfiniteQuery<{ list: SomeItem[]; pageNum: number }>(
+    ["somethingList"],
+    async ({ pageParam = 0 }) => {
+      const res = await axios.get("/something", {
+        params: {
+          page: pageParam,
+          size: 30,
+        },
+      });
+
+      return { list: res.data.list, pageNum: pageParam };
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        return lastPage.pageNum + 1;
+      },
+      refetchOnWindowFocus: false,
+    }
+  );
+```
+
+위 코드는 내가 실제로 쓴 `useInfiniteQuery` 코드를 조금 수정한 것이다. 일단 나는 `queryKey`를 `somethingList`로 정했다. 이후 `queryFunction`을 정의해줬는데, `axios`를 이용하여 API를 호출한다. 해당 API는 2개의 파라미터 값을 받는다. `page`와 `size`이다. 이제 중요한 부분이다. `page`라는 키 값에서 알 수 있듯이, `page` 번호에 따라 다른 데이터를 불러오게 된다. 이 `page` 키 값을 `queryFunction`의 인자(`arguments`)로, `pageParam` 값으로 받아와서 API 호출을 할 때마다 넘겨주는 것으로 하자! 이 값을 `queryFunction`의 반환(`return`) 값으로서 API에서 불러온 데이터와 함께 넘겨주는 것(여기서는 `pageNum` 값으로 넘겨준다)도 잊지 말아야 한다.
+
+이제 이 `pageParam`의 변화를 어떻게 줄 것인지 설정해야 한다. `queryFunction` 아래에 객체로, 그 객체 안에 `getNextPageParam` 키 값을 통해 옵션을 설정한다. 여기서 `lastPage`는 `useInfiniteQuery`가 호출한 바로 직전의 데이터를 의미한다. 이 데이터를 `useInfiniteQuery`는 읽을 수 있다. 우리는 `useInfiniteQuery`의 반환 값으로 `pageNum`을 넘겨줬으므로 다음 페이지를 불러오는 로직에서 `pageNum` 값을 사용한다. `lastPage.pageNum` 값에 1을 더하여 반환하는 걸로 `getNextPageParam` 옵션을 설정하자. `pageParam` 최초 값을 0으로 설정했으니, 최초에는 `page` 값이 `0`인 데이터를 받아오고 이후에 `useInfinitQuery`의 최종 데이터 중 하나인 `fetchNextPage` 함수를 호출 할 때마다 `page` 값을 1씩 증가시켜 API를 호출하게 된다.
+
+내가 이해한 것은 여기까지로... `useInfiniteQuery`가 어떻게 이전 데이터와 함께 다음 페이지 데이터를 보여줄 수 있는지는 잘 알지 못한다. `Tanstack Query` 공식 문서에 올라온 예제대로는 실행이 되지 않아서 내 방식대로 코드를 고쳐서 썼더니, 잘 작동했다.
+
+인터넷을 찾아봐도 `React Query`의 내부 동작에 대한 안내가 잘 보이지 않는다. 좀 더 찾아서 `useInfiniteQuery`가 어떻게 작동하는지 제대로 알아봐야겠다.
