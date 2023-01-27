@@ -4,7 +4,11 @@
 
 with Gatsby, Typescript, styled-components, Gatsby Cloud
 
-## ~~배포~~
+## 배포
+
+with Gatsby Cloud
+
+[https://tyange.gatsbyjs.io/](https://tyange.gatsbyjs.io/)
 
 ## 만든 사람
 
