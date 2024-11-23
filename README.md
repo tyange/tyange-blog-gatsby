@@ -1,4 +1,4 @@
-# tyange-blog
+# tyange-blog-gatsby
 
 개발 블로그 따로 만들기.
 
